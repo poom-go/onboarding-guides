@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STEP 3. 풀필먼트 연동</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Apple SD Gothic Neo', sans-serif; background: #f5f6fa; color: #1a1a2e; }
+    .header { background: #1a1a2e; color: white; padding: 32px 40px; }
+    .step-badge { background: #4361ee; color: white; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 12px; }
+    .header h1 { font-size: 28px; font-weight: 700; }
+    .header p { margin-top: 8px; color: #94a3b8; font-size: 15px; }
+    .container { max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    .card { background: white; border-radius: 16px; padding: 32px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+    .card h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .step-item { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
+    .step-num { background: #4361ee; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .step-item p { font-size: 15px; line-height: 1.7; color: #334155; }
+    .faq-item { border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 16px; }
+    .faq-item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+    .faq-q { font-weight: 600; font-size: 15px; margin-bottom: 8px; display: flex; gap: 8px; }
+    .faq-q span { color: #4361ee; }
+    .faq-a { font-size: 14px; color: #64748b; line-height: 1.7; padding-left: 24px; }
+    .checklist label { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 15px; color: #334155; }
+    .checklist label:hover { background: #f8fafc; }
+    .checklist input[type="checkbox"] { width: 18px; height: 18px; accent-color: #4361ee; }
+    .checked { text-decoration: line-through; color: #94a3b8 !important; }
+    .complete-btn { width: 100%; padding: 16px; background: #4361ee; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; }
+    .complete-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+    .progress-bar { background: #e2e8f0; border-radius: 99px; height: 6px; margin-bottom: 32px; }
+    .progress-fill { background: #4361ee; height: 6px; border-radius: 99px; width: 28%; }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="step-badge">STEP 3 / 7</div>
+  <h1>풀필먼트 연동</h1>
+  <p>물류 창고와 시스템을 연결합니다. 약 1시간 소요됩니다.</p>
+</div>
+<div class="container">
+  <div class="progress-label"><span>전체 진행률</span><span>3/7 단계</span></div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <div class="card">
+    <h2>📋 진행 순서</h2>
+    <div class="step-item"><div class="step-num">1</div><p><strong>풀필먼트 센터 선택</strong><br>담당자가 안내한 센터를 선택하세요.</p></div>
+    <div class="step-item"><div class="step-num">2</div><p><strong>입고 주소 확인</strong><br>배정된 창고 주소를 확인하세요.</p></div>
+    <div class="step-item"><div class="step-num">3</div><p><strong>연동 설정 완료</strong><br>시스템에서 풀필먼트 연동 메뉴를 설정하세요.</p></div>
+    <div class="step-item"><div class="step-num">4</div><p><strong>테스트 주문 처리</strong><br>테스트 주문으로 정상 연동됐는지 확인하세요.</p></div>
+  </div>
+  <div class="card">
+    <h2>✅ 완료 체크리스트</h2>
+    <div class="checklist" id="checklist">
+      <label><input type="checkbox" onchange="updateCheck(this)"> 풀필먼트 센터 선택 완료</label>
+      <label><input type="checkbox" onchange="updateCheck(this)"> 입고 주소 확인 완료</label>
+      <label><input type="checkbox" onchange="updateCheck(this)"> 연동 설정 완료</label>
+      <label><input type="checkbox" onchange="updateCheck(this)"> 테스트 주문 처리 완료</label>
+    </div>
+    <button class="complete-btn" id="completeBtn" disabled>모든 항목을 체크하면 완료할 수 있어요</button>
+  </div>
+  <div class="card">
+    <h2>💬 자주 묻는 질문</h2>
+    <div class="faq-item">
+      <div class="faq-q"><span>Q.</span> 어떤 풀필먼트 센터를 써야 하나요?</div>
+      <div class="faq-a">상품 종류와 배송 지역에 따라 달라요. 담당자에게 문의해주세요.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span>Q.</span> 테스트 주문은 어떻게 하나요?</div>
+      <div class="faq-a">시스템 내 테스트 주문 메뉴에서 진행할 수 있어요.</div>
+    </div>
+  </div>
+</div>
+<script>
+  function updateCheck(checkbox) {
+    checkbox.parentElement.classList.toggle('checked', checkbox.checked);
+    const all = document.querySelectorAll('#checklist input');
+    const checked = document.querySelectorAll('#checklist input:checked');
+    const btn = document.getElementById('completeBtn');
+    if (all.length === checked.length) { btn.disabled = false; btn.textContent = '✓ STEP 3 완료하기'; }
+    else { btn.disabled = true; btn.textContent = `${checked.length}/${all.length} 항목 완료됨`; }
+  }
+  document.getElementById('completeBtn').addEventListener('click', () => alert('STEP 3 완료! 🎉'));
+</script>
+</body>
+</html>
