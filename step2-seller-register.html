@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STEP 2. 판매처 등록</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Apple SD Gothic Neo', sans-serif; background: #f5f6fa; color: #1a1a2e; }
+    .header { background: #1a1a2e; color: white; padding: 32px 40px; }
+    .header .step-badge { background: #4361ee; color: white; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 12px; }
+    .header h1 { font-size: 28px; font-weight: 700; }
+    .header p { margin-top: 8px; color: #94a3b8; font-size: 15px; }
+    .container { max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    .card { background: white; border-radius: 16px; padding: 32px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+    .card h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .step-item { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
+    .step-num { background: #4361ee; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .step-item p { font-size: 15px; line-height: 1.7; color: #334155; }
+    .step-item strong { color: #1a1a2e; }
+    .faq-item { border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 16px; }
+    .faq-item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+    .faq-q { font-weight: 600; font-size: 15px; margin-bottom: 8px; display: flex; gap: 8px; }
+    .faq-q span { color: #4361ee; }
+    .faq-a { font-size: 14px; color: #64748b; line-height: 1.7; padding-left: 24px; }
+    .checklist label { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px; cursor: pointer; transition: background 0.15s; font-size: 15px; color: #334155; }
+    .checklist label:hover { background: #f8fafc; }
+    .checklist input[type="checkbox"] { width: 18px; height: 18px; accent-color: #4361ee; cursor: pointer; }
+    .checklist label.checked { text-decoration: line-through; color: #94a3b8; }
+    .complete-btn { width: 100%; padding: 16px; background: #4361ee; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: background 0.15s; }
+    .complete-btn:hover { background: #3451d1; }
+    .complete-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+    .progress-bar { background: #e2e8f0; border-radius: 99px; height: 6px; margin-bottom: 32px; }
+    .progress-fill { background: #4361ee; height: 6px; border-radius: 99px; width: 28%; transition: width 0.5s; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="step-badge">STEP 2 / 7</div>
+  <h1>판매처 등록</h1>
+  <p>판매할 채널을 시스템에 연결합니다. 약 30분 소요됩니다.</p>
+</div>
+
+<div class="container">
+
+  <!-- 진행률 -->
+  <div class="progress-label">
+    <span>전체 진행률</span>
+    <span>2/7 단계</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill"></div>
+  </div>
+
+  <!-- 진행 순서 -->
+  <div class="card">
+    <h2>📋 진행 순서</h2>
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <p><strong>판매 채널 선택</strong><br>스마트스토어, 쿠팡, 11번가 등 사용 중인 채널을 선택하세요.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <p><strong>API 키 발급</strong><br>각 플랫폼 판매자센터 → 개발자/API 메뉴에서 API 키를 발급받으세요.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <p><strong>시스템에 입력</strong><br>발급받은 API 키를 시스템 판매처 등록 메뉴에 입력하세요.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <p><strong>연동 테스트</strong><br>테스트 버튼을 눌러 정상 연결됐는지 확인하세요.</p>
+    </div>
+  </div>
+
+  <!-- 체크리스트 -->
+  <div class="card">
+    <h2>✅ 완료 체크리스트</h2>
+    <div class="checklist" id="checklist">
+      <label><input type="checkbox" onchange="updateCheck(this)"> 판매 채널 선택 완료</label>
+      <label><input type="checkbox" onchange="updateCheck(this)"> API 키 발급 완료</label>
+      <label><input type="checkbox" onchange="updateCheck(this)"> 시스템 입력 완료</label>
+      <label><input type="checkbox" onchange="updateCheck(this)"> 연동 테스트 완료</label>
+    </div>
+    <button class="complete-btn" id="completeBtn" disabled onclick="completeStep()">
+      모든 항목을 체크하면 완료할 수 있어요
+    </button>
+  </div>
+
+  <!-- FAQ -->
+  <div class="card">
+    <h2>💬 자주 묻는 질문</h2>
+    <div class="faq-item">
+      <div class="faq-q"><span>Q.</span> API 키는 어디서 받나요?</div>
+      <div class="faq-a">각 플랫폼 판매자센터 → 마이페이지 → 개발자 API 메뉴에서 발급받을 수 있어요. 플랫폼마다 위치가 달라서 잘 모르시면 담당자에게 문의해주세요.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span>Q.</span> 여러 채널을 동시에 등록할 수 있나요?</div>
+      <div class="faq-a">네, 순서 상관없이 모두 등록 가능해요. 채널별로 각각 API 키를 입력하면 됩니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span>Q.</span> 연동 테스트가 실패해요</div>
+      <div class="faq-a">API 키를 다시 복사해서 입력해보세요. 공백이 포함되는 경우가 많아요. 그래도 안 되면 담당자에게 문의해주세요.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function updateCheck(checkbox) {
+    const label = checkbox.parentElement;
+    if (checkbox.checked) {
+      label.classList.add('checked');
+    } else {
+      label.classList.remove('checked');
+    }
+    const all = document.querySelectorAll('#checklist input[type="checkbox"]');
+    const checked = document.querySelectorAll('#checklist input[type="checkbox"]:checked');
+    const btn = document.getElementById('completeBtn');
+    if (all.length === checked.length) {
+      btn.disabled = false;
+      btn.textContent = '✓ STEP 2 완료하기';
+    } else {
+      btn.disabled = true;
+      btn.textContent = `${checked.length}/${all.length} 항목 완료됨`;
+    }
+  }
+
+  function completeStep() {
+    alert('STEP 2 완료! 담당자에게 알림이 전송됩니다.\n다음 단계로 넘어가세요 🎉');
+  }
+</script>
+
+</body>
+</html>
